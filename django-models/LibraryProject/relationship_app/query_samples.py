@@ -10,7 +10,7 @@ def query_books_by_author(author_name):
 def query_books_in_library(library_name):
     # List all books in a library
     library = Library.objects.get(name=library_name)
-    books = library.book_set.all()
+    books = library.books.all()
     for book in books:
         print(book.title)
 
