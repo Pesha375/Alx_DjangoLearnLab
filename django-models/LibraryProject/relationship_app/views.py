@@ -10,8 +10,8 @@ from django.views.generic.detail import DetailView
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-   
-   
+from django.contrib.auth import login, authenticate
+from django.contrib.auth.forms import UserCreationForm
    
 def list_books(request):
     books = Book.objects.all()
@@ -27,5 +27,14 @@ class LibraryDetailView(DetailView):
         context['library'] = library
 return context  # type: ignore
      
-   
+def register_view(request):
+    if request.method == 'POST':
+        form = UserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return redirect('library_list')
+    else:
+        form = UserCreationForm()
+    return render(request,'relationship_app/register.html', {'form': form})  
    
