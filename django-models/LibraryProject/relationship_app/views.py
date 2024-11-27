@@ -1,22 +1,16 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView
 from.models import Book, Library, Author
-from .models import Library, Book
-from django.views.generic.detail import DetailView
-from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from.forms import BookForm
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.decorators import user_passes_test 
-from django.contrib.auth.decorators import permission_required
-from django.shortcuts import render, get_object_or_404, redirect
-from .models import Book
-from .forms import BookForm    # type: ignore
+
+# Your views go here...
+
    
 def list_books(request):
     books = Book.objects.all()
