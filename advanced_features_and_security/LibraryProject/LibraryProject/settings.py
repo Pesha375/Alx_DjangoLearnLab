@@ -23,7 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-1ij*fbyozn89bu0ze(pae1r03p$0g1mq2&%1l$^xl3zqa)z2m_'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
+
 
 ALLOWED_HOSTS = []
 
@@ -31,7 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+   'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'relationship_app'
     'users',
+    'csp',
 
 
 ]
@@ -51,6 +53,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'csp.middleware.CSPMiddleware',
+
 ]
 
 ROOT_URLCONF = 'LibraryProject.urls'
@@ -135,5 +139,16 @@ AUTH_USER_MODEL = 'users.CustomUser'
 # advanced_features_and_security/settings.py
 AUTH_USER_MODEL = "advanced_features_and_security.CustomUser"
 AUTH_USER_MODEL = 'bookshelf.CustomUser'
-
-
+SECURE_BROWSER_XSS_FILTER = True
+X_FRAME_OPTIONS = 'DENY'  # or 'SAMEORIGIN' to allow embedding in the same domain
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000  # 1 year
+CSRF_COOKIE_HTTPONLY = True
+ALLOWED_HOSTS = ['yourdomain.com', 'subdomain.yourdomain.com']
+X_FRAME_OPTIONS = 'DENY'
+CSP_DEFAULT_SRC = ("'self'",)
+CSP_SCRIPT_SRC = ("'self'", 'https://trusted-scripts.com')
+CSP_STYLE_SRC = ("'self'", 'https://trusted-styles.com')

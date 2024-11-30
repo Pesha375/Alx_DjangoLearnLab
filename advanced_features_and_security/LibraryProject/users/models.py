@@ -24,7 +24,7 @@ class CustomUserManager(BaseUserManager): # type: ignore
 
         return self.create_user(email, password, **extra_fields)
 
-class CustomUser(AbstractUser):
+class CustomUser(AbstractUser): # type: ignore
     email = models.EmailField(unique=True)
     date_of_birth = models.DateField(null=True, blank=True)
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
