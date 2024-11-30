@@ -55,9 +55,11 @@ class Book(models.Model):
             ("can_change_book", "Can change book"),
             ("can_delete_book", "Can delete book"),
             ("can_view_book", "Can view book"),  # Added view permission
+            ("can_create", "Can create book"),  # Added create permission
         ]
 
     def __str__(self):
         return f"'{self.title}' by {self.author} ({self.publication_year})"
+
 
 
