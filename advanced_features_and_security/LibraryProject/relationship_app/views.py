@@ -51,7 +51,7 @@ def get_role_redirect(user):
 
 
 # Admin View (restricted to users with is_admin function check)
-@user_passes_test(is_admin)  # Ensure only users with 'Admin' role can access
+@user_passes_test(is_admin)  # type: ignore # Ensure only users with 'Admin' role can access
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
