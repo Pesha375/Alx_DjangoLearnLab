@@ -1,10 +1,9 @@
 
 
-# Create your models here.
-from django.contrib.auth.models import AbstractUser, BaseUserManager
+# Create yourom django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
 
-class CustomUserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager): # type: ignore
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError("The Email field must be set")
@@ -31,10 +30,18 @@ class CustomUser(AbstractUser):
     profile_photo = models.ImageField(upload_to='profile_photos/', null=True, blank=True)
 
     username = None  # Remove username field
-    USERNAME_FIELD = 'email'  # Use email for authentication
+    USERNAME_FIELD = 'email'  # Use email field for authentication
     REQUIRED_FIELDS = []  # Add fields required on create_superuser
 
     objects = CustomUserManager()
+
+    class Meta:
+        permissions = [
+            ("can_view_user", "Can view user"),
+            ("can_add_user", "Can add user"),
+            ("can_change_user", "Can change user"),
+            ("can_delete_user", "Can delete user"),
+        ]
 
     def __str__(self):
         return self.email

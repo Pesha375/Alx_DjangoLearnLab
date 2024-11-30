@@ -3,6 +3,7 @@ from django.db import models
 from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 
+
 # Custom Manager for the Custom User Model
 class CustomUserManager(BaseUserManager):
     def create_user(self, username, email, password=None, **extra_fields):
@@ -26,6 +27,7 @@ class CustomUserManager(BaseUserManager):
 
         return self.create_user(username, email, password, **extra_fields)
 
+
 # Custom User Model extending AbstractUser with additional fields
 class CustomUser(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
@@ -38,6 +40,7 @@ class CustomUser(AbstractUser):
         # Returning more detailed information for better representation in the admin
         return f"{self.username} ({self.first_name} {self.last_name})"
 
+
 # Book Model linking to the custom user model
 class Book(models.Model):
     title = models.CharField(max_length=200)
@@ -45,6 +48,16 @@ class Book(models.Model):
     publication_year = models.IntegerField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='books')
 
+    # Custom permissions for the Book model
+    class Meta:
+        permissions = [
+            ("can_add_book", "Can add book"),
+            ("can_change_book", "Can change book"),
+            ("can_delete_book", "Can delete book"),
+            ("can_view_book", "Can view book"),  # Added view permission
+        ]
+
     def __str__(self):
         return f"'{self.title}' by {self.author} ({self.publication_year})"
+
 
