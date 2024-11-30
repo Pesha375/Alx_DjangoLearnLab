@@ -3,8 +3,7 @@ from django.contrib.auth.admin import UserAdmin
 from .models import CustomUser, UserProfile, Book, Author, Library, Librarian  # Import necessary models
 
 
-# Register the CustomUser model in the admin panel
-@admin.register(CustomUser)
+# Register the CustomUser model in the admin panel using admin.site.register
 class CustomUserAdmin(UserAdmin):
     """
     Custom configuration for the CustomUser model in the admin.
@@ -26,6 +25,10 @@ class CustomUserAdmin(UserAdmin):
         }),
     )
     ordering = ('username',)
+
+
+# Register CustomUserAdmin with admin.site.register
+admin.site.register(CustomUser, CustomUserAdmin)
 
 
 # Register UserProfile model
