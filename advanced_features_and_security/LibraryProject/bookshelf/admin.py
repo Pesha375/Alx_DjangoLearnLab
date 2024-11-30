@@ -10,14 +10,14 @@ class CustomUserAdmin(UserAdmin):
     Custom configuration for the CustomUser model in the admin.
     """
     model = CustomUser
-    list_display = ('username', 'email', 'first_name', 'last_name', 'date_of_birth', 'is_staff')
+    list_display = ('username', 'email', 'first_name', 'last_name', 'date_of_birth', 'profile_photo', 'is_staff')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     list_filter = ('is_staff', 'is_superuser', 'is_active', 'date_of_birth')
     fieldsets = (
-        (None, {'fields': ('username', 'password')}),
-        ('Personal Info', {'fields': ('first_name', 'last_name', 'email', 'date_of_birth', 'profile_photo')}),
-        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
-        ('Important Dates', {'fields': ('last_login', 'date_joined')}),
+        (None, {'fields': ('username', 'password')}),  # Default username and password fields
+        ('Personal Info', {'fields': ('first_name', 'last_name', 'email', 'date_of_birth', 'profile_photo')}),  # Personal fields
+        ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),  # Permissions fields
+        ('Important Dates', {'fields': ('last_login', 'date_joined')}),  # Date fields
     )
     add_fieldsets = (
         (None, {
@@ -78,6 +78,7 @@ class LibrarianAdmin(admin.ModelAdmin):
     """
     list_display = ('name', 'library')
     search_fields = ('name', 'library__name')
+
 
 
 
