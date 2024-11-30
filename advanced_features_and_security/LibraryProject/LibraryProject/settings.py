@@ -152,3 +152,9 @@ X_FRAME_OPTIONS = 'DENY'
 CSP_DEFAULT_SRC = ("'self'",)
 CSP_SCRIPT_SRC = ("'self'", 'https://trusted-scripts.com')
 CSP_STYLE_SRC = ("'self'", 'https://trusted-styles.com')
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True  # Apply HSTS to all subdomains
+SECURE_HSTS_PRELOAD = True  # Allows the site to be included in the HSTS preload list
+SESSION_COOKIE_SAMESITE = 'Lax'  # 'Strict' is more secure but can break functionality; 'Lax' is a good balance
+
+
+
