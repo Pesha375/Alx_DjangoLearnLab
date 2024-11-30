@@ -5,6 +5,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from .models import Book
 from .forms import BookForm  # Assuming you have a form for Book
+from .forms import ExampleForm
+
 
 # Sign Up View
 class SignUpView(CreateView):
