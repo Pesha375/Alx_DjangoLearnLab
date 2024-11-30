@@ -1,3 +1,4 @@
+from django import views
 from django.views.generic import TemplateView
 from .views import SignUpView
 
@@ -11,6 +12,6 @@ urlpatterns = [
              TemplateView.as_view(template_name='accounts/profile.html'),
              name='profile'),
     path("signup/", SignUpView.as_view(), name="templates/registration/signup"),
-        ...
+    path('example/', views.example_view, name='example_view'),
 ]
 
