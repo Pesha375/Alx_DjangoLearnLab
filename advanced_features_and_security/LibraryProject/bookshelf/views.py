@@ -16,7 +16,7 @@ class SignUpView(CreateView):
 @permission_required('bookshelf.can_view_book', raise_exception=True)
 def book_list(request):
     query = request.GET.get('q')  # Getting the search query from the request
-    # Securely querying the books using Django ORM
+    # Securely querying the books using Django ORM to prevent SQL injection
     books = Book.objects.filter(title__icontains=query) if query else Book.objects.all()
     return render(request, 'book_list.html', {'books': books})
 
@@ -62,7 +62,6 @@ def delete_book(request, book_id):
 
     return render(request, 'delete_book.html', {'book': book})
 
-
 # Class-based views for Book (listing, creating, updating, deleting)
 class BookListView(ListView):
     model = Book
@@ -73,15 +72,14 @@ class BookListView(ListView):
         query = self.request.GET.get('q')
         # Ensure the query is sanitized and safely executed using the ORM
         if query:
+            # Avoid SQL injection by using Django ORM filter with safe query
             return Book.objects.filter(title__icontains=query)
         return Book.objects.all()
-
 
 class BookDetailView(DetailView):
     model = Book
     template_name = 'book_detail.html'
     context_object_name = 'book'
-
 
 class BookCreateView(CreateView):
     model = Book
@@ -92,7 +90,6 @@ class BookCreateView(CreateView):
         # Ensuring that the logged-in user is the one adding the book
         form.instance.user = self.request.user
         return super().form_valid(form)
-
 
 class BookUpdateView(UpdateView):
     model = Book
@@ -105,7 +102,6 @@ class BookUpdateView(UpdateView):
             return redirect('book_list')  # Or raise a permission error
         return super().form_valid(form)
 
-
 class BookDeleteView(DeleteView):
     model = Book
     template_name = 'delete_book.html'
@@ -116,5 +112,6 @@ class BookDeleteView(DeleteView):
         if not request.user.has_perm('bookshelf.can_delete_book'):
             return redirect('book_list')  # Or raise a permission error
         return super().dispatch(request, *args, **kwargs)
+
 
 
