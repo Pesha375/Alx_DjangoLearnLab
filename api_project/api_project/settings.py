@@ -31,7 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
+   'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', 
     'api',
+    'rest_framework.authtoken',
+
 
 
 ]
@@ -129,3 +131,32 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+ # settings.py
+# Configure Django REST Framework to use token authentication and require authentication for all views
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+        'rest_framework.authentication.SessionAuthentication',  # Optional, for session-based authentication
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# urls.py
+# Include the token retrieval endpoint and the router URLs for the BookViewSet
+urlpatterns = [
+    path('books/', BookList.as_view(), name='book-list'), # type: ignore
+    path('', include(router.urls)), # type: ignore
+    path('api-token-auth/', auth_views.obtain_auth_token, name='api_token_auth'), # type: ignore
+]
+
+# views.py
+# BookViewSet with IsAuthenticated permission to ensure only authenticated users can access the endpoints
+class BookViewSet(viewsets.ModelViewSet): # type: ignore
+    queryset = Book.objects.all() # type: ignore
+    serializer_class = BookSerializer # type: ignore
+    permission_classes = [permissions.IsAuthenticated] # type: ignore
+
+
