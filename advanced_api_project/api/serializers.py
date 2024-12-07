@@ -1,4 +1,4 @@
-from rest_framework import serializers # type: ignore
+from rest_framework import serializers
 from .models import Author, Book
 from datetime import datetime
 
@@ -22,14 +22,6 @@ class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
         fields = ['id', 'name', 'books']
-
 # BookSerializer handles validation and serialization for Book objects.
 # AuthorSerializer dynamically nests BookSerializer to include related books.
-
-
-
-
-
-
-
 
