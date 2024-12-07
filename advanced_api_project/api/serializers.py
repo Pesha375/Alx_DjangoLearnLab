@@ -24,4 +24,3 @@ class AuthorSerializer(serializers.ModelSerializer):
         fields = ['id', 'name', 'books']
 # BookSerializer handles validation and serialization for Book objects.
 # AuthorSerializer dynamically nests BookSerializer to include related books.
-
