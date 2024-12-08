@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#ww5mos^-2#!sr2*m*8p=e40yds)#8!opwni@fag$9#yzq2w)4'
+SECRET_KEY = 'django-insecure-1*-uii8e=h6v%@c*f4b6c-%b4d&d@9h^$(y7w+m=m(wmihs3*!'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -78,12 +78,8 @@ WSGI_APPLICATION = 'advanced_api_project.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'alx_book_store',  # Replace with your database name
-        'USER': 'root',  # Replace with your MySQL username
-        'PASSWORD': 'Evan@..6100.',  # Replace with your MySQL password
-        'HOST': 'localhost',  # Use 'localhost' if MySQL is on your local machine
-        'PORT': '3306',  # Default MySQL port
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 
