@@ -7,9 +7,14 @@ from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticate
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.generics import ListAPIView
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters import rest_framework
 
-# List all books
-class BookListView(generics.ListCreateAPIView):
+
+
+
+
+
+class BookListView(generics.ListCreateAPIView):# List all books
     queryset = Book.objects.all()
     serializer_class = BookSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]  # Public access for read-only, authenticated users can create
