@@ -66,3 +66,12 @@ This project demonstrates the use of Django REST Framework's generic views and m
 
 ## Permissions
 - **IsOwnerOrReadOnly**: Custom permission class that allows read-only access to unauthenticated users and full access to authenticated users who own the book.
+### Advanced Query Capabilities
+#### Filtering
+- Example: `/api/books/?author=Jane%20Austen`
+
+#### Searching
+- Example: `/api/books/?search=Pride`
+
+#### Ordering
+- Example: `/api/books/?ordering=publication_year
