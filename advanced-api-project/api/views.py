@@ -6,6 +6,9 @@ from .permissions import IsOwnerOrReadOnly
 from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters import rest_framework
+
+
 
 # List all books with advanced filtering, searching, and ordering
 class BookListView(generics.ListCreateAPIView):
