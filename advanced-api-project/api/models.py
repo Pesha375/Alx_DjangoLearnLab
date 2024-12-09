@@ -1,6 +1,4 @@
-# api/models.py
 from django.db import models
-
 
 class Author(models.Model):
     """
@@ -15,7 +13,6 @@ class Author(models.Model):
         Returns a string representation of the author.
         """
         return self.name
-
 
 class Book(models.Model):
     """
