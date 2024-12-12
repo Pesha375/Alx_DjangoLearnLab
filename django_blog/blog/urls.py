@@ -19,5 +19,6 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+    path(comment/<int:pk>/update/", "post/<int:pk>/comments/new/", "comment/<int:pk>/delete/)
     
 ]
