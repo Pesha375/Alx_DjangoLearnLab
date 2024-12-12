@@ -1,13 +1,13 @@
 # blog/forms.py
 from django import forms
 from .models import Post, Comment
-from taggit.forms import TagField, TagWidget
+from taggit.forms import TagField, TagWidget # type: ignore
 
-class CustomUserCreationForm(UserCreationForm):
+class CustomUserCreationForm(UserCreationForm): # type: ignore
     email = forms.EmailField(required=True)
 
     class Meta:
-        model = User
+        model = User # type: ignore
         fields = ['username', 'email', 'password1', 'password2']
 
 class PostForm(forms.ModelForm):

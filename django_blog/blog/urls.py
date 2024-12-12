@@ -20,5 +20,6 @@ urlpatterns = [
     path('logout/', views.user_logout, name='logout'),
     path('register/', views.register, name='register'),
     path('profile/', views.profile, name='profile'),
+    path(tags/<slug:tag_slug>/", "PostByTagListView.as_view())
 ]
 
