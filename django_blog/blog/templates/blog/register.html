@@ -1,0 +1,17 @@
+&lt;!-- blog/templates/blog/register.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Register{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Register&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Register&lt;/button&gt;
+&lt;/form&gt;
+{% if form.errors %}
+    &lt;div class="error"&gt;
+        {{ form.errors }}
+    &lt;/div&gt;
+{% endif %}
+{% endblock %}

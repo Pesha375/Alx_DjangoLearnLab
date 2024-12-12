@@ -1,0 +1,17 @@
+lt;!-- blog/templates/blog/post_list.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Blog Posts{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Blog Posts&lt;/h2&gt;
+&lt;ul&gt;
+    {% for post in posts %}
+    &lt;li&gt;
+        &lt;h3&gt;&lt;a href="{% url 'post_detail' post.id %}"&gt;{{ post.title }}&lt;/a&gt;&lt;/h3&gt;
+        &lt;p&gt;{{ post.content|truncatewords:50 }}&lt;/p&gt;
+        &lt;p&gt;Published on: {{ post.published_date }}&lt;/p&gt;
+        &lt;p&gt;By: {{ post.author.username }}&lt;/p&gt;
+    &lt;/li&gt;
+    {% endfor %}
+&lt;/ul&gt;
+{% endblock %}

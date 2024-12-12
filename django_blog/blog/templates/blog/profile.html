@@ -1,0 +1,20 @@
+&lt;!-- blog/templates/blog/profile.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Profile&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    &lt;label for="email"&gt;Email:&lt;/label&gt;
+    &lt;input type="email" name="email" id="email" value="{{ user.email }}" required&gt;
+    &lt;button type="submit"&gt;Update Profile&lt;/button&gt;
+&lt;/form&gt;
+{% if messages %}
+    &lt;ul class="messages"&gt;
+        {% for message in messages %}
+            &lt;li{% if message.tags %} class="{{ message.tags }}"{% endif %}&gt;{{ message }}&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+{% endif %}
+{% endblock %}

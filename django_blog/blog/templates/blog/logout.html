@@ -1,0 +1,9 @@
+&lt;!-- blog/templates/blog/logout.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Logout{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Logged Out&lt;/h2&gt;
+&lt;p&gt;You have been successfully logged out.&lt;/p&gt;
+&lt;a href="{% url 'home' %}"&gt;Back to Home&lt;/a&gt;
+{% endblock %}

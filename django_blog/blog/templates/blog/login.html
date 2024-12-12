@@ -1,0 +1,22 @@
+&lt;!-- blog/templates/blog/login.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Login&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    &lt;label for="username"&gt;Username:&lt;/label&gt;
+    &lt;input type="text" name="username" id="username" required&gt;
+    &lt;label for="password"&gt;Password:&lt;/label&gt;
+    &lt;input type="password" name="password" id="password" required&gt;
+    &lt;button type="submit"&gt;Login&lt;/button&gt;
+&lt;/form&gt;
+{% if messages %}
+    &lt;ul class="messages"&gt;
+        {% for message in messages %}
+            &lt;li{% if message.tags %} class="{{ message.tags }}"{% endif %}&gt;{{ message }}&lt;/li&gt;
+        {% endfor %}
+    &lt;/ul&gt;
+{% endif %}
+{% endblock %}
