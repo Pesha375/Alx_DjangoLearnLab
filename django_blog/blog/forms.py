@@ -1,8 +1,7 @@
-from .models import Post, Comment
-
 # blog/forms.py
 from django import forms
-from .models import Post, Tag
+from .models import Post, Comment
+from taggit.forms import TagField # type: ignore
 
 class CustomUserCreationForm(UserCreationForm): # type: ignore
     email = forms.EmailField(required=True)
@@ -12,11 +11,7 @@ class CustomUserCreationForm(UserCreationForm): # type: ignore
         fields = ['username', 'email', 'password1', 'password2']
 
 class PostForm(forms.ModelForm):
-    tags = forms.ModelMultipleChoiceField(
-        queryset=Tag.objects.all(),
-        widget=forms.CheckboxSelectMultiple,
-        required=False
-    )
+    tags = TagField()
 
     class Meta:
         model = Post
