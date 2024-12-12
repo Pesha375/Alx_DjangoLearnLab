@@ -1,0 +1,13 @@
+&lt;!-- blog/templates/blog/post_form.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}{{ title }} Post{% endblock %}
+
+{% block content %}
+&lt;h2&gt;{{ title }} Post&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+&lt;a href="{% url 'posts' %}"&gt;Back to Posts&lt;/a&gt;
+{% endblock %}

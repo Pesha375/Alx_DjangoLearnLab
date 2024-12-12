@@ -1,0 +1,15 @@
+&lt;!-- blog/templates/blog/post_detail.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block content %}
+&lt;h1&gt;{{ post.title }}&lt;/h1&gt;
+&lt;p&gt;{{ post.content }}&lt;/p&gt;
+&lt;p&gt;Published on: {{ post.published_date }}&lt;/p&gt;
+&lt;p&gt;By: {{ post.author.username }}&lt;/p&gt;
+{% if user.is_authenticated and user == post.author %}
+&lt;a href="{% url 'post_edit' post.id %}"&gt;Edit&lt;/a&gt;
+&lt;a href="{% url 'post_delete' post.id %}"&gt;Delete&lt;/a&gt;
+{% endif %}
+&lt;a href="{% url 'posts' %}"&gt;Back to Posts&lt;/a&gt;
+{% endblock %}
