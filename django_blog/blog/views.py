@@ -5,8 +5,10 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.contrib import messages
+from django.db.models import Q
 from .forms import CustomUserCreationForm, PostForm, CommentForm
-from .models import Post, Comment
+from .models import Post, Comment, Tag
+from django.urls import reverse
 from django.contrib.auth.models import User
 
 # Authentication Views
@@ -112,7 +114,7 @@ class CommentCreateView(LoginRequiredMixin, CreateView):
         return super().form_valid(form)
 
     def get_success_url(self):
-        return reverse('post_detail', kwargs={'pk': self.kwargs['post_id']}) # type: ignore
+        return reverse('post_detail', kwargs={'pk': self.kwargs['post_id']})
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
@@ -124,7 +126,7 @@ class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
         return self.request.user == comment.author
 
     def get_success_url(self):
-        return reverse('post_detail', kwargs={'pk': self.object.post.id}) # type: ignore
+        return reverse('post_detail', kwargs={'pk': self.object.post.id})
 
 class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Comment
@@ -135,9 +137,27 @@ class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         return self.request.user == comment.author
 
     def get_success_url(self):
-        return reverse('post_detail', kwargs={'pk': self.object.post.id}) # type: ignore
+        return reverse('post_detail', kwargs={'pk': self.object.post.id})
 
-# Function-based view for post_list (optional, for consistency with other function-based views)
-def post_list(request):
-    posts = Post.objects.all()
-    return render(request, 'blog/post_list.html', {'posts': posts})
+# Search and Tag Views
+
+class TagPostListView(ListView):
+    model = Post
+    template_name = 'blog/post_list.html'
+    context_object_name = 'posts'
+    ordering = ['-published_date']
+
+    def get_queryset(self):
+        tag = get_object_or_404(Tag, name=self.kwargs['tag_name'])
+        return Post.objects.filter(tags=tag)
+
+class SearchResultsView(ListView):
+    model = Post
+    template_name = 'blog/search_results.html'
+    context_object_name = 'posts'
+
+    def get_queryset(self):
+        query = self.request.GET.get('q')
+        return Post.objects.filter(
+            Q(title__icontains=query) | Q(content__icontains=query) | Q(tags__name__icontains=query)
+        ).distinct()
