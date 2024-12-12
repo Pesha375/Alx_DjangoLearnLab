@@ -1,0 +1,13 @@
+&lt;!-- blog/templates/blog/comment_form.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}{{ title }} Comment{% endblock %}
+
+{% block content %}
+&lt;h2&gt;{{ title }} Comment&lt;/h2&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    {{ form.as_p }}
+    &lt;button type="submit"&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+&lt;a href="{% url 'post_detail' post.id %}"&gt;Back to Post&lt;/a&gt;
+{% endblock %}

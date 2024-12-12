@@ -1,0 +1,13 @@
+&lt;!-- blog/templates/blog/comment_confirm_delete.html --&gt;
+{% extends 'blog/base.html' %}
+{% block title %}Delete Comment{% endblock %}
+
+{% block content %}
+&lt;h2&gt;Delete Comment&lt;/h2&gt;
+&lt;p&gt;Are you sure you want to delete the comment by {{ object.author.username }}?&lt;/p&gt;
+&lt;form method="post"&gt;
+    {% csrf_token %}
+    &lt;button type="submit"&gt;Confirm&lt;/button&gt;
+    &lt;a href="{% url 'post_detail' object.post.id %}"&gt;Cancel&lt;/a&gt;
+&lt;/form&gt;
+{% endblock %}

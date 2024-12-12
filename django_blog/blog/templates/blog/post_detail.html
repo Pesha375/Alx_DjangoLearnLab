@@ -1,15 +1,40 @@
-&lt;!-- blog/templates/blog/post_detail.html --&gt;
+<!-- blog/templates/blog/post_detail.html -->
 {% extends 'blog/base.html' %}
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block content %}
-&lt;h1&gt;{{ post.title }}&lt;/h1&gt;
-&lt;p&gt;{{ post.content }}&lt;/p&gt;
-&lt;p&gt;Published on: {{ post.published_date }}&lt;/p&gt;
-&lt;p&gt;By: {{ post.author.username }}&lt;/p&gt;
+<h1>{{ post.title }}</h1>
+<p>{{ post.content }}</p>
+<p>Published on: {{ post.published_date }}</p>
+<p>By: {{ post.author.username }}</p>
 {% if user.is_authenticated and user == post.author %}
-&lt;a href="{% url 'post_edit' post.id %}"&gt;Edit&lt;/a&gt;
-&lt;a href="{% url 'post_delete' post.id %}"&gt;Delete&lt;/a&gt;
+<a href="{% url 'post_edit' post.id %}">Edit</a>
+<a href="{% url 'post_delete' post.id %}">Delete</a>
 {% endif %}
-&lt;a href="{% url 'posts' %}"&gt;Back to Posts&lt;/a&gt;
+<a href="{% url 'posts' %}">Back to Posts</a>
+
+<h2>Comments</h2>
+{% if post.comments.all %}
+<ul>
+    {% for comment in post.comments.all %}
+    <li>
+        <p><strong>{{ comment.author.username }}</strong> on {{ comment.created_at }}:</p>
+        <p>{{ comment.content }}</p>
+        {% if user.is_authenticated and user == comment.author %}
+        <a href="{% url 'comment_edit' comment.id %}">Edit</a>
+        <a href="{% url 'comment_delete' comment.id %}">Delete</a>
+        {% endif %}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No comments yet.</p>
+{% endif %}
+
+<h2>Add a Comment</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Submit</button>
+</form>
 {% endblock %}
