@@ -1,7 +1,8 @@
 # accounts/views.py
+# accounts/views.py
 from rest_framework import generics, status
 from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.authtoken.models import Token
 from django.contrib.auth import authenticate
 from .models import CustomUser
@@ -9,6 +10,7 @@ from .serializers import CustomUserSerializer
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = CustomUserSerializer
+    permission_classes = [AllowAny]
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -19,6 +21,7 @@ class RegisterView(generics.CreateAPIView):
 
 class LoginView(generics.GenericAPIView):
     serializer_class = CustomUserSerializer
+    permission_classes = [AllowAny]
 
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
