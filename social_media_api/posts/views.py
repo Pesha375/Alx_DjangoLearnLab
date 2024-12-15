@@ -12,7 +12,7 @@ class StandardResultsSetPagination(PageNumberPagination):
     page_size = 10
     page_size_query_param = 'page_size'
     max_page_size = 100
-
+permissions.IsAuthenticated", "generics.get_object_or_404(Post, pk=pk)
 class PostViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing blog posts.
