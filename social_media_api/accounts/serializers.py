@@ -35,3 +35,4 @@ class RegisterSerializer(serializers.ModelSerializer):
         # Create and return the user's token
         Token.objects.create(user=user)
         return user
+serializers.CharField()", "get_user_model().objects.create_user
