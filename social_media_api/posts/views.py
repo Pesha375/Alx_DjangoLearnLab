@@ -1,10 +1,15 @@
+# posts/views.py
 from django.shortcuts import render
-
 from rest_framework.pagination import PageNumberPagination
 from rest_framework import viewsets, permissions
 from rest_framework.response import Response
 from .models import Post, Comment
-from .serializers import PostSerializer, CommentSerializer # type: ignore
+from .serializers import PostSerializer, CommentSerializer
+
+class StandardResultsSetPagination(PageNumberPagination):
+    page_size = 10
+    page_size_query_param = 'page_size'
+    max_page_size = 100
 
 class PostViewSet(viewsets.ModelViewSet):
     """
@@ -14,6 +19,7 @@ class PostViewSet(viewsets.ModelViewSet):
     queryset = Post.objects.all()
     serializer_class = PostSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardResultsSetPagination
 
     def perform_create(self, serializer):
         """
@@ -36,7 +42,6 @@ class PostViewSet(viewsets.ModelViewSet):
 
         return queryset
 
-
 class CommentViewSet(viewsets.ModelViewSet):
     """
     ViewSet for managing comments on posts.
@@ -45,6 +50,7 @@ class CommentViewSet(viewsets.ModelViewSet):
     queryset = Comment.objects.all()
     serializer_class = CommentSerializer
     permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    pagination_class = StandardResultsSetPagination
 
     def perform_create(self, serializer):
         """
@@ -67,42 +73,18 @@ class CommentViewSet(viewsets.ModelViewSet):
                 queryset = queryset.none()
 
         return queryset
-class StandardResultsSetPagination(PageNumberPagination):
-    page_size = 10
-    page_size_query_param = 'page_size'
-    max_page_size = 100
 
-class PostViewSet(viewsets.ModelViewSet):
-    queryset = Post.objects.all()
+class FeedView(viewsets.GenericViewSet, viewsets.mixins.ListModelMixin):
+    """
+    View for generating a feed of posts from users that the current user follows.
+    """
     serializer_class = PostSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [permissions.IsAuthenticated]
     pagination_class = StandardResultsSetPagination
 
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
     def get_queryset(self):
-        queryset = super().get_queryset()
-        title = self.request.query_params.get('title')
-        content = self.request.query_params.get('content')
-        if title:
-            queryset = queryset.filter(title__icontains=title)
-        if content:
-            queryset = queryset.filter(content__icontains=content)
-        return queryset
-
-class CommentViewSet(viewsets.ModelViewSet):
-    queryset = Comment.objects.all()
-    serializer_class = CommentSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
-    pagination_class = StandardResultsSetPagination
-
-    def perform_create(self, serializer):
-        serializer.save(author=self.request.user)
-
-    def get_queryset(self):
-        queryset = super().get_queryset()
-        post_id = self.request.query_params.get('post_id')
-        if post_id:
-            queryset = queryset.filter(post__id=post_id)
-        return queryset
+        """
+        Return posts from users that the current user follows, ordered by creation date.
+        """
+        following = self.request.user.following.all()
+        return Post.objects.filter(author__in=following).order_by('-created_at')
