@@ -1,11 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
+# accounts/views.py
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 from .serializers import CustomUserSerializer
-from .models import CustomUser
+from django.contrib.auth import authenticate
 
 class RegisterView(generics.CreateAPIView):
     serializer_class = CustomUserSerializer
@@ -23,9 +24,9 @@ class LoginView(generics.GenericAPIView):
     def post(self, request, *args, **kwargs):
         username = request.data.get('username')
         password = request.data.get('password')
-        user = CustomUser.objects.filter(username=username).first()
-        if user and user.check_password(password):
-            token, created = Token.objects.get_or_create(user=user)
+        user = authenticate(username=username, password=password)
+        if user:
+            token, created = Token.objects.get_orcreate(user=user)
             return Response({'token': token.key})
         return Response({'error': 'Invalid credentials'}, status=status.HTTP_400_BAD_REQUEST)
 
@@ -34,4 +35,3 @@ class ProfileView(generics.RetrieveAPIView):
 
     def get_object(self):
         return self.request.user
-
