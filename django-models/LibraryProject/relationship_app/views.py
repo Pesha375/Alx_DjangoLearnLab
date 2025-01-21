@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import Library
 
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
@@ -48,23 +49,23 @@ def is_member(user):
     return hasattr(user, 'userprofile') and user.userprofile.role == 'Member'
 
 # Admin view
-@user_passes_test(is_admin)
+@user_passes_test(is_admin) # type: ignore
 def admin_view(request):
     return render(request, 'relationship_app/admin_view.html')
 
 # Librarian view
-@user_passes_test(is_librarian)
+@user_passes_test(is_librarian) # type: ignore
 def librarian_view(request):
     return render(request, 'relationship_app/librarian_view.html')
 
 # Member view
-@user_passes_test(is_member)
+@user_passes_test(is_member) # type: ignore
 def member_view(request):
     return render(request, 'relationship_app/member_view.html')
 
 
 # Add book view
-@permission_required('relationship_app.can_add_book', raise_exception=True)
+@permission_required('relationship_app.can_add_book', raise_exception=True) # type: ignore
 def add_book(request):
     if request.method == 'POST':
         form = BookForm(request.POST)
@@ -76,7 +77,7 @@ def add_book(request):
     return render(request, 'relationship_app/add_book.html', {'form': form})
 
 # Edit book view
-@permission_required('relationship_app.can_change_book', raise_exception=True)
+@permission_required('relationship_app.can_change_book', raise_exception=True) # type: ignore
 def edit_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
@@ -89,7 +90,7 @@ def edit_book(request, book_id):
     return render(request, 'relationship_app/edit_book.html', {'form': form})
 
 # Delete book view
-@permission_required('relationship_app.can_delete_book', raise_exception=True)
+@permission_required('relationship_app.can_delete_book', raise_exception=True) # type: ignore
 def delete_book(request, book_id):
     book = get_object_or_404(Book, id=book_id)
     if request.method == 'POST':
