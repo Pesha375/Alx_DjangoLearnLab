@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from .models import Library
-
+from django.views.generic.detail import DetailView
 # Create your views here.
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views import View
